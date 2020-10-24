@@ -15,12 +15,10 @@ def failure(msg):
 
 @app.route('/get-page')
 def get_page():
-    return { "page": app.server.get_pageNumber() }
+    return { "page": app.server.get_pageName() }
 
 @app.route('/set-page', methods=['POST'])
 def set_page():
-    for k in request.data:
-        print("**", f"{k} → {request.data[k]}", file=sys.stderr)
     if "page" not in request.data:
         return failure("No page specified"), status.HTTP_400_BAD_REQUEST
 
@@ -30,7 +28,7 @@ def set_page():
     password = request.data["password"]
     page = request.data["page"]
     try:
-        app.server.update_pageNumber(page, password)
+        app.server.update_pageName(page, password)
     except WrongPassword:
         return failure("Incorrect password"), status.HTTP_401_UNAUTHORIZED
 
