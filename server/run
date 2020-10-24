@@ -3,7 +3,9 @@
 import sys
 import os
 
-from Server import app
+from app import app
+from Server import PTServer
 
 if __name__ == "__main__":
+    app.server = PTServer()
     app.run(debug=True)
