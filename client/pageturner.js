@@ -11,6 +11,27 @@ function show(where, what) {
     document.getElementById(where).textContent = what;
 }
 
+rr.lockPage = function() {
+    this.pageLocked = true
+    this.color_pagenumbers("silver")
+    show("locked_display", "locked")
+}
+
+rr.unlockPage = function() {
+    this.pageLocked = false
+    this.color_pagenumbers("white")
+    show("locked_display", "unlocked")
+}
+
+rr.color_pagenumbers = function(color) {
+    pagenumber_element = document.getElementsByClassName("pagenumber")
+    for (i=0; i < pagenumber_element.length; i++) {
+        elem = pagenumber_element[i]
+        console.log(elem)
+        elem.style.backgroundColor = color
+    }
+}
+
 function sendrequest() {
     console.log("sendrequest", rr)
     if (rr.waiting) {
@@ -51,13 +72,6 @@ rr.action = function(response) {
 
 function STOP() {
     window.clearInterval(rr.timeout)
-}
-
-function lockPage() {
-    pageLocked = true;
-}
-function unlockPage() {
-    pageLocked = false;
 }
 
 function GETcompleted() {
