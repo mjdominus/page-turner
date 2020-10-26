@@ -5,31 +5,77 @@ var rr = { "waiting": false,
            "pageLocked": true,
            "serverURL": "http://127.0.0.1:5000",
            "window": window,
+           "pagename": null,
+           "pagenumber": null,
          }
 
 function show(where, what) {
     document.getElementById(where).textContent = what;
 }
 
+function filename_to_number(filename) {
+    const pat = /slide0*(\d+)/
+    let g = filename.match(pat)
+    if (g == null) {
+        return "???"
+    } else {
+        return g[1]
+    }
+}
+
+rr.refresh_elements = function() {
+    if (this.pageLocked) {
+        rr.update_phantom_numbers(function(elem) {
+            elem.style.backgroundColor = "white"
+            elem.style.visibility = "hidden"
+        })
+        show("locked_display", "locked")
+    } else {
+        rr.update_phantom_numbers(function(elem) {
+            elem.style.backgroundColor = "silver"
+            elem.style.visibility = "visible"
+            elem.textContent = rr.pagenumber
+        })
+        show("locked_display", "unlocked")
+    }
+}
+
 rr.lockPage = function() {
     this.pageLocked = true
-    this.color_pagenumbers("silver")
-    show("locked_display", "locked")
+    this.refresh_elements()
 }
 
 rr.unlockPage = function() {
     this.pageLocked = false
-    this.color_pagenumbers("white")
-    show("locked_display", "unlocked")
+    this.refresh_elements()
 }
 
-rr.color_pagenumbers = function(color) {
-    pagenumber_element = document.getElementsByClassName("pagenumber")
+rr.update_phantom_numbers = function(cb) {
+    pagenumber_element = document.getElementsByClassName("phantom_number")
     for (i=0; i < pagenumber_element.length; i++) {
         elem = pagenumber_element[i]
         console.log(elem)
-        elem.style.backgroundColor = color
+        cb(elem)
     }
+}
+
+rr.schedule_action = function() {
+    console.log("schedule_action", this);
+    if (this.timeout != null) {
+        window.clearInterval(this.timeout)
+    }
+    this.timeout = window.setInterval(sendrequest, this.delay)
+}
+
+rr.ONCE = function() {
+    if (this.timeout != null) {
+        window.clearInterval(this.timeout)
+    }
+    this.timeout = window.setTimeout(sendrequest)
+}
+
+rr.STOP = function() {
+    window.clearInterval(this.timeout)
 }
 
 function sendrequest() {
@@ -52,26 +98,17 @@ function getCompleted() {
     rr.action(reply)
 }
 
-rr.schedule_action = function() {
-    console.log("schedule_action", this);
-    if (this.timeout != null) {
-        window.clearInterval(this.timeout)
-    }
-    this.timeout = window.setInterval(sendrequest, this.delay)
-}
-
-rr.STOP = function() {
-    window.clearInterval(this.timeout)
-}
-
 rr.action = function(response) {
     console.log("in action, response = ", response)
+    this.pagename = response.page
+    this.pagenumber = filename_to_number(response.page)
     update_filenamedisplay(response.page);
     if (rr.pageLocked) {
-        rr.window.location.assign(response.page);
+//        rr.window.location.assign(response.page);
+    } else {
+        rr.refresh_elements()
     }
 }
-
 
 function STOP() {
     window.clearInterval(rr.timeout)
