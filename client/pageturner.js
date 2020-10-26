@@ -1,11 +1,10 @@
-var pageLocked = true;
-var curPage = "blah";
-var serverURL = "http://127.0.0.1:5000";
-
 var rr = { "waiting": false,
            "getpage": new XMLHttpRequest(),
            "delay": 1000,
            "timeout": null,
+           "pageLocked": true,
+           "serverURL": "http://127.0.0.1:5000",
+           "window": window,
          }
 
 function sendrequest() {
@@ -14,7 +13,7 @@ function sendrequest() {
         // already waiting, ignore
     } else {
         rr.getpage.addEventListener("load", getCompleted );
-        rr.getpage.open("GET", serverURL + "/get-page");
+        rr.getpage.open("GET", rr.serverURL + "/get-page");
         rr.getpage.send();
         rr.waiting = true
     }
