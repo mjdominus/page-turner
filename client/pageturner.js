@@ -7,6 +7,7 @@ var rr = { "waiting": false,
            "window": window,
            "pagename": null,
            "pagenumber": null,
+           "password": null,
          }
 
 function show(where, what) {
@@ -72,6 +73,22 @@ rr.schedule_action = function() {
     this.timeout = window.setInterval(sendrequest, this.delay)
 }
 
+rr.switchpage = function(dir) {
+    if (rr.password == null) {
+        rr.unlockPage()
+    }
+    links = document.head.getElementsByTagName('link')
+    for (i=0; i < links.length; i++) {
+        elem = links[i]
+        console.log(i, elem)
+        if (elem.rel == dir) {
+            rr.window.location.assign(elem.href);
+            return
+        }
+    }
+    alert("Couldn't find link rel=" + dir)
+}
+
 rr.ONCE = function() {
     if (this.timeout != null) {
         window.clearInterval(this.timeout)
@@ -129,3 +146,24 @@ function GETcompleted() {
 function update_filenamedisplay(text) {
     show("filename_display", text)
 }
+
+window.onkeydown = function(e) {
+    e = e || window.event;
+    var k = e.keyCode || e.which;
+//    alert(k);
+    switch(k) {
+    case 34: // page down
+    case 39: // right arrow
+    case 78: // 'n'
+        rr.switchpage("next")
+        break;
+    case 37: // left arrow
+    case 33: // page up
+    case 80: // 'p'
+        rr.switchpage("previous")
+        break;
+    }
+    return true;
+}
+
+// rr.schedule_action()
