@@ -40,6 +40,11 @@ rr.refresh_elements = function() {
     }
 }
 
+function phantom_click() {
+    console.log("phantom click")
+    rr.lockPage()
+}
+
 rr.lockPage = function() {
     this.pageLocked = true
     this.refresh_elements()
@@ -104,7 +109,7 @@ rr.action = function(response) {
     this.pagenumber = filename_to_number(response.page)
     update_filenamedisplay(response.page);
     if (rr.pageLocked) {
-//        rr.window.location.assign(response.page);
+        rr.window.location.assign(response.page);
     } else {
         rr.refresh_elements()
     }
