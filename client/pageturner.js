@@ -67,6 +67,9 @@ rr.STOP = function() {
 rr.action = function(response) {
     console.log("in action, response = ", response)
     update_filenamedisplay(response.page);
+    if (rr.pageLocked) {
+        rr.window.location.assign(response.page);
+    }
 }
 
 
