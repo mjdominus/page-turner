@@ -7,6 +7,10 @@ var rr = { "waiting": false,
            "window": window,
          }
 
+function show(where, what) {
+    document.getElementById(where).textContent = what;
+}
+
 function sendrequest() {
     console.log("sendrequest", rr)
     if (rr.waiting) {
@@ -64,5 +68,5 @@ function GETcompleted() {
 }
 
 function update_filenamedisplay(text) {
-    document.getElementById('filenamedisplay').textContent = text;
+    show("filename_display", text)
 }
