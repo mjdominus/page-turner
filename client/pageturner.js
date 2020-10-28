@@ -13,14 +13,26 @@ var rr_init = { "waiting": false,
 var rr = {};
 var r = {};
 
+r.isLeader = function () {
+    return this.data.password != null
+}
+
+function postError() {
+    console.log("post completed", this)
+}
+
 window.onload = function () {
     restoreState()
 
-    if (r.data.password == null) {  // follower
+    if (r.isLeader()) {
+        r.getpage.addEventListener("load", postError );
+        r.getpage.open("POST", r.data.serverURL + "/set-page");
+        r.getpage.setRequestHeader("Content-type", "application/json")
+        r.getpage.send(JSON.stringify({"page": basename(location),
+                                       "password": r.data.password }));
+    } else {
         r.refresh_elements()
         r.timeout = window.setInterval(sendrequest, r.data.delay)
-    } else { // leader
-
     }
 }
 
@@ -46,6 +58,10 @@ function restoreState() {
 
 function stuff_text(where, what) {
     document.getElementById(where).textContent = what;
+}
+
+function basename(s) {
+    return s.href.split('/').pop()
 }
 
 function filename_to_number(filename) {
