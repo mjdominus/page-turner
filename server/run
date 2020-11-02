@@ -8,4 +8,4 @@ from Server import PTServer
 
 if __name__ == "__main__":
     app.server = PTServer()
-    app.run(debug=True)
+    app.run(host='0.0.0.0')
