@@ -1,7 +1,7 @@
 
 
 var rr_init = { "waiting": false,
-                "delay": 3000,
+                "delay": 2000,
                 "timeout": null,
                 "pageLocked": true,
                 "serverURL": "http://127.0.0.1:5000",
