@@ -53,7 +53,6 @@ function restoreState() {
     }
     r.data = rr
     r.getpage = new XMLHttpRequest()
-    stuff_text("debug_rr", JSON.stringify(rr))
 }
 
 function stuff_text(where, what) {
