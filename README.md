@@ -26,7 +26,7 @@ You are free to share (copy and redistribute the software in any
 medium or format) and adapt (remix, transform, and build upon the
 material) for any purpose, even commercially, so long as you give
 appropriate credit, [provide a link to the
-e](https://creativecommons.org/licenses/by/4.0/legalcode), and
+license](https://creativecommons.org/licenses/by/4.0/legalcode), and
 indicate if changes were made. You may do so in any reasonable manner,
 but not in any way that suggests the licensor endorses you or your
 use.
