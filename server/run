@@ -6,6 +6,10 @@ import os
 from app import app
 from Server import PTServer
 
+import ssl
+context = ssl.SSLContext()
+context.load_cert_chain('etc/fullchain.pem', 'etc/privkey.pem')
+
 if __name__ == "__main__":
     app.server = PTServer()
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', ssl_context=context)
