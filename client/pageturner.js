@@ -56,7 +56,10 @@ function restoreState() {
 }
 
 function stuff_text(where, what) {
-    document.getElementById(where).textContent = what;
+    var z = document.getElementById(where)
+    if (z) {
+	z.textContent = what;
+    }
 }
 
 function basename(s) {
