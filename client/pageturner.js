@@ -69,7 +69,7 @@ function basename(s) {
 function filename_to_number(filename) {
     //    const pat = /slide0*(\d+)/
     console.log("to number: ", filename)
-    const pat = /test(\d*)\.html$/
+    const pat = /slide(\d*)\w*\.html$/
     let g = filename.match(pat)
     if (g == null) {
         return "???"
